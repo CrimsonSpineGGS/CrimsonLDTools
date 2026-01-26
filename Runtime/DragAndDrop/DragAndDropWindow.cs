@@ -130,11 +130,8 @@ namespace Samples.Editor.General
 
         private void Awake()
         {
-            _settingsPath = Path.Combine(
-                Application.dataPath,
-                "Editor",
-                "CrimsonToolPlaceActor.json"
-            );
+            _settingsPath = Path.Combine(Application.persistentDataPath, "CrimsonToolPlaceActor.json");
+
 
             LoadSettingsDataOnly();
             // test
@@ -148,16 +145,19 @@ namespace Samples.Editor.General
         private void CreateGUI()
         {
             _root = rootVisualElement;
-
+            
+            string packagePath = GetPackagePath();
+            
             // Charge le VisualTreeAsset
             _visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "./DragAndDropWindow.uxml"
+                Path.Combine(packagePath, "DragAndDropWindow.uxml")
             );
 
             // Charge le StyleSheet
             _styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(
-                "./DragAndDropWindow.uss"
+                Path.Combine(packagePath, "DragAndDropWindow.uss")
             );
+
 
             // Ajoute le VisualTreeAsset à la racine
             if (_visualTree != null)
@@ -222,5 +222,27 @@ namespace Samples.Editor.General
         }
 
         #endregion
+        
+        // Méthode pour obtenir le chemin du package
+        private string GetPackagePath()
+        {
+            // Trouve le chemin de ce script
+            MonoScript script = MonoScript.FromScriptableObject(this);
+            string scriptPath = AssetDatabase.GetAssetPath(script);
+
+            // Récupère le PackageInfo pour ce script
+            PackageInfo packageInfo = PackageInfo.FindForAssetPath(scriptPath);
+
+            // Si le script est dans un package, utilise le chemin du package
+            if (packageInfo != null)
+            {
+                return packageInfo.assetPath;
+            }
+            // Sinon, utilise le chemin relatif au projet
+            else
+            {
+                return Path.GetDirectoryName(scriptPath);
+            }
+        }
     }
 }

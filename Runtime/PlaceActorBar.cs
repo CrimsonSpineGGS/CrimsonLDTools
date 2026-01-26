@@ -69,7 +69,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Cube";
             tooltip = "Create a cube in the scene";
-            icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Icons/cube.png");
+            icon = LoadIcon("cube");
             clicked += () => AddPrimitive(PrimitiveType.Cube);
         }
     }
@@ -83,7 +83,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Sphere";
             tooltip = "Create a sphere in the scene";
-            icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Icons/sphere.png");
+            icon = LoadIcon("sphere");
             clicked += () => AddPrimitive(PrimitiveType.Sphere);
         }
     }
@@ -98,7 +98,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Capsule";
             tooltip = "Create a capsule in the scene";
-            icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Icons/capsule.png");
+            icon = LoadIcon("capsule");
             clicked += () => AddPrimitive(PrimitiveType.Capsule);
         }
     }
@@ -112,7 +112,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Cylinder";
             tooltip = "Create a cylinder in the scene";
-            icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Icons/cylinder.png");
+            icon = LoadIcon("cylinder");
             clicked += () => AddPrimitive(PrimitiveType.Cylinder);
         }
     }
@@ -126,7 +126,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Plane";
             tooltip = "Create a place in the scene";
-            icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Icons/plane.png");
+            icon = LoadIcon("plane");
             clicked += () => AddPrimitive(PrimitiveType.Plane);
         }
     }
@@ -140,7 +140,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Quad";
             tooltip = "Create a quad in the scene";
-            icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Icons/quad.png");
+            icon = LoadIcon("quad");
             clicked += () => AddPrimitive(PrimitiveType.Quad);
         }
     }
@@ -157,5 +157,32 @@ public class PlaceActorBar : ToolbarOverlay
             value = _placeDistance;
             tooltip = "Modify the distance where the actor is placed";
         }
+    }
+    
+    
+    // Méthode pour obtenir le chemin du package
+    private static string GetPackagePath()
+    {
+        MonoScript script = MonoScript.FromScriptableObject(ScriptableObject.CreateInstance<PlaceActorBar>());
+        string scriptPath = AssetDatabase.GetAssetPath(script);
+        PackageInfo packageInfo = PackageInfo.FindForAssetPath(scriptPath);
+
+        if (packageInfo != null)
+        {
+            return packageInfo.assetPath;
+        }
+        else
+        {
+            // Si le script n'est pas dans un package, utilise le chemin relatif au projet
+            return Path.GetDirectoryName(scriptPath);
+        }
+    }
+    
+    // Méthode pour charger une icône depuis le package
+    private static Texture2D LoadIcon(string iconName)
+    {
+        string packagePath = GetPackagePath();
+        string iconPath = Path.Combine(packagePath, "Icons", $"{iconName}.png");
+        return AssetDatabase.LoadAssetAtPath<Texture2D>(iconPath);
     }
 }
