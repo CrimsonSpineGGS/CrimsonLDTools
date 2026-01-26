@@ -4,21 +4,18 @@ using UnityEditor.Toolbars;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-// Déclaration de l'overlay sur la SceneViex avec un nom
+// Déclaration de l'overlay sur la SceneView avec un nom
 [Overlay(typeof(SceneView), "Place Actor Bar")]
-
-// La class dérive de ToolBarOverlay forcément
 public class PlaceActorBar : ToolbarOverlay
 {
     private static float _placeDistance = 10f;
 
-    // Permet d'ajouter les class dans la toolbar. Il doit contenir les ID des éléments et non pas les éléments eux mêmes. 
+    // Permet d'ajouter les classes dans la toolbar
     private PlaceActorBar() : base(AddCube.Id, AddSphere.Id, AddCapsule.Id, AddCylinder.Id, AddPlane.Id,
-        PlaceDistance.Id)
+        AddQuad.Id, PlaceDistance.Id)
     {
     }
 
-    // Prend en paramètre le type de primitive souhaité, ensuite crée l'objet, register l'action dans la classe UNDO puis met la selection sur l'objet crée. 
     private static void AddPrimitive(PrimitiveType primitiveType)
     {
         var sceneView = SceneView.lastActiveSceneView;
@@ -50,26 +47,18 @@ public class PlaceActorBar : ToolbarOverlay
         Selection.activeObject = go;
     }
 
-    // Permet de définir que c'est un élément du toolbar, contient son ID ainsi que la target
-    [EditorToolbarElement(Id, typeof(SceneView))]
+    // Méthode pour obtenir le chemin du package
 
-    // Class privé qui dérive de Editorhyjuku , ,;lo!ù4420 d'après Andrea allez tous vous faire enculer ❤️. 
+    [EditorToolbarElement(Id, typeof(SceneView))]
     private class AddCube : EditorToolbarButton
     {
         public const string Id = "Place Actor Bar/AddCube";
 
-        /*
-         * Constructeur :
-         * text : S'affiche quand la barre est déplié horizontalement
-         * tooltip : S'affiche quand on hover l'icon longtemps
-         * icon : Permet d'afficher une icon quand en vertical
-         * clicked : Permet de définir l'action à faire quand on click. (Utilisation d'une lambda ici pour passer le primitive souhaité).
-         */
         public AddCube()
         {
             text = "Add Cube";
             tooltip = "Create a cube in the scene";
-            icon = LoadIcon("cube");
+            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/cube.png") as Texture2D;
             clicked += () => AddPrimitive(PrimitiveType.Cube);
         }
     }
@@ -83,7 +72,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Sphere";
             tooltip = "Create a sphere in the scene";
-            icon = LoadIcon("sphere");
+            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/sphere.png") as Texture2D;
             clicked += () => AddPrimitive(PrimitiveType.Sphere);
         }
     }
@@ -93,12 +82,11 @@ public class PlaceActorBar : ToolbarOverlay
     {
         public const string Id = "Place Actor Bar/AddCapsule";
 
-
         public AddCapsule()
         {
             text = "Add Capsule";
             tooltip = "Create a capsule in the scene";
-            icon = LoadIcon("capsule");
+            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/capsule.png") as Texture2D;
             clicked += () => AddPrimitive(PrimitiveType.Capsule);
         }
     }
@@ -112,7 +100,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Cylinder";
             tooltip = "Create a cylinder in the scene";
-            icon = LoadIcon("cylinder");
+            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/cylinder.png") as Texture2D;
             clicked += () => AddPrimitive(PrimitiveType.Cylinder);
         }
     }
@@ -125,8 +113,8 @@ public class PlaceActorBar : ToolbarOverlay
         public AddPlane()
         {
             text = "Add Plane";
-            tooltip = "Create a place in the scene";
-            icon = LoadIcon("plane");
+            tooltip = "Create a plane in the scene";
+            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/plane.png") as Texture2D;
             clicked += () => AddPrimitive(PrimitiveType.Plane);
         }
     }
@@ -140,12 +128,11 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Quad";
             tooltip = "Create a quad in the scene";
-            icon = LoadIcon("quad");
+            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/quad.png") as Texture2D;
             clicked += () => AddPrimitive(PrimitiveType.Quad);
         }
     }
 
-    // Permet de créer un float field 
     [EditorToolbarElement(Id, typeof(SceneView))]
     private class PlaceDistance : EditorToolbarFloatField
     {
@@ -157,32 +144,5 @@ public class PlaceActorBar : ToolbarOverlay
             value = _placeDistance;
             tooltip = "Modify the distance where the actor is placed";
         }
-    }
-    
-    
-    // Méthode pour obtenir le chemin du package
-    private static string GetPackagePath()
-    {
-        MonoScript script = MonoScript.FromScriptableObject(ScriptableObject.CreateInstance<PlaceActorBar>());
-        string scriptPath = AssetDatabase.GetAssetPath(script);
-        PackageInfo packageInfo = PackageInfo.FindForAssetPath(scriptPath);
-
-        if (packageInfo != null)
-        {
-            return packageInfo.assetPath;
-        }
-        else
-        {
-            // Si le script n'est pas dans un package, utilise le chemin relatif au projet
-            return Path.GetDirectoryName(scriptPath);
-        }
-    }
-    
-    // Méthode pour charger une icône depuis le package
-    private static Texture2D LoadIcon(string iconName)
-    {
-        string packagePath = GetPackagePath();
-        string iconPath = Path.Combine(packagePath, "Icons", $"{iconName}.png");
-        return AssetDatabase.LoadAssetAtPath<Texture2D>(iconPath);
     }
 }

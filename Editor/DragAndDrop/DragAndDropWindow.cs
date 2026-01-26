@@ -4,6 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace Samples.Editor.General
 {
@@ -41,6 +42,21 @@ namespace Samples.Editor.General
                 var element = CreatePrefabElement(prefab);
                 _actorArea.Add(element);
             }
+        }
+
+        // Méthode pour obtenir le chemin du package
+        private string GetPackagePath()
+        {
+            // Trouve le chemin de ce script
+            var scriptPath = AssetDatabase.GetAssetPath(this);
+
+            // Récupère le PackageInfo pour ce script
+            var packageInfo = PackageInfo.FindForAssetPath(scriptPath);
+
+            // Si le script est dans un package, utilise le chemin du package
+            if (packageInfo != null) return packageInfo.assetPath;
+            // Sinon, utilise le chemin relatif au projet
+            return Path.GetDirectoryName(scriptPath);
         }
 
 
@@ -145,9 +161,9 @@ namespace Samples.Editor.General
         private void CreateGUI()
         {
             _root = rootVisualElement;
-            
-            string packagePath = GetPackagePath();
-            
+
+            var packagePath = GetPackagePath();
+
             // Charge le VisualTreeAsset
             _visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
                 Path.Combine(packagePath, "DragAndDropWindow.uxml")
@@ -222,27 +238,5 @@ namespace Samples.Editor.General
         }
 
         #endregion
-        
-        // Méthode pour obtenir le chemin du package
-        private string GetPackagePath()
-        {
-            // Trouve le chemin de ce script
-            MonoScript script = MonoScript.FromScriptableObject(this);
-            string scriptPath = AssetDatabase.GetAssetPath(script);
-
-            // Récupère le PackageInfo pour ce script
-            PackageInfo packageInfo = PackageInfo.FindForAssetPath(scriptPath);
-
-            // Si le script est dans un package, utilise le chemin du package
-            if (packageInfo != null)
-            {
-                return packageInfo.assetPath;
-            }
-            // Sinon, utilise le chemin relatif au projet
-            else
-            {
-                return Path.GetDirectoryName(scriptPath);
-            }
-        }
     }
 }
