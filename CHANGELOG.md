@@ -1,4 +1,4 @@
-## [0.1] - 26-01-2026
+## [1.0.0] - 26-01-2026
 ### First Release 
 
 - Ajout d'un tool dans le viewport pour créer des primitives. 
