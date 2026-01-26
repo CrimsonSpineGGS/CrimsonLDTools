@@ -47,7 +47,13 @@ public class PlaceActorBar : ToolbarOverlay
         Selection.activeObject = go;
     }
 
-    // Méthode pour obtenir le chemin du package
+
+    private static Texture2D LoadIcon(string fileName)
+    {
+        var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(
+            $"Packages/com.crimsonteam.crimsontool/Editor/Icons/{fileName}.png");
+        return icon;
+    }
 
     [EditorToolbarElement(Id, typeof(SceneView))]
     private class AddCube : EditorToolbarButton
@@ -58,7 +64,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Cube";
             tooltip = "Create a cube in the scene";
-            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/cube.png") as Texture2D;
+            icon = LoadIcon("cube");
             clicked += () => AddPrimitive(PrimitiveType.Cube);
         }
     }
@@ -72,7 +78,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Sphere";
             tooltip = "Create a sphere in the scene";
-            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/sphere.png") as Texture2D;
+            icon = LoadIcon("sphere");
             clicked += () => AddPrimitive(PrimitiveType.Sphere);
         }
     }
@@ -86,7 +92,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Capsule";
             tooltip = "Create a capsule in the scene";
-            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/capsule.png") as Texture2D;
+            icon = LoadIcon("capsule");
             clicked += () => AddPrimitive(PrimitiveType.Capsule);
         }
     }
@@ -100,7 +106,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Cylinder";
             tooltip = "Create a cylinder in the scene";
-            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/cylinder.png") as Texture2D;
+            icon = LoadIcon("cylinder");
             clicked += () => AddPrimitive(PrimitiveType.Cylinder);
         }
     }
@@ -114,7 +120,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Plane";
             tooltip = "Create a plane in the scene";
-            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/plane.png") as Texture2D;
+            icon = LoadIcon("plane");
             clicked += () => AddPrimitive(PrimitiveType.Plane);
         }
     }
@@ -128,7 +134,7 @@ public class PlaceActorBar : ToolbarOverlay
         {
             text = "Add Quad";
             tooltip = "Create a quad in the scene";
-            icon = EditorGUIUtility.Load("Packages/com.crimsonteam.crimsontool/Icons/quad.png") as Texture2D;
+            icon = LoadIcon("quad");
             clicked += () => AddPrimitive(PrimitiveType.Quad);
         }
     }
