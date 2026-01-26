@@ -151,12 +151,12 @@ namespace Samples.Editor.General
 
             // Charge le VisualTreeAsset
             _visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/Editor/DragAndDropWindow.uxml"
+                "./DragAndDropWindow.uxml"
             );
 
             // Charge le StyleSheet
             _styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(
-                "Assets/Editor/DragAndDropWindow.uss"
+                "./DragAndDropWindow.uss"
             );
 
             // Ajoute le VisualTreeAsset à la racine

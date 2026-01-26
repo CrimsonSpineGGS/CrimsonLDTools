@@ -1,1 +1,15 @@
+{
+  "name": "com.crimsonteam.crimsontool",
+  "version": "0.1",
+  "displayName": "Crimson tool",
+  "description": "A set of tool to help level art and design",
+  "unity": "2022.1",
+  "dependencies": {
+  },
+  "author": {
+    "name": "Milan TURCANO",
+    "email": "contact@milanturcano.fr",
+    "url": "https://milanturcano.fr"
+  }
+}
 
