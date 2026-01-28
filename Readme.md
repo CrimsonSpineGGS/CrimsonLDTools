@@ -11,7 +11,7 @@ The package manager window is now open. Click on the "+" icon in the upper left 
 Copy and Paste the following URL : 
 
 ```
-https://github.com/MILANT10/Crimson-utility-tools.git
+https://github.com/CrimsonSpineGGS/CrimsonLDTools
 ```
 
 You can now find the Place Actor window in **Crimson Tool** > **Place Actor**. And the primitive quick action into your main toolbar on the viewport with the name **PA**. 
