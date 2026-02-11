@@ -139,6 +139,9 @@ namespace Samples.Editor.General
 
         private void OnDisable()
         {
+            if (_manipulator == null)
+                return;
+
             _manipulator.target.RemoveManipulator(_manipulator);
         }
 
